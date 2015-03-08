@@ -1,4 +1,5 @@
-set nocompatible	
+set nocompatible	" be iMproved
+
 set number	" Show line numbers
 set linebreak	" Break lines at word (requires Wrap lines)
 set showbreak=+++	" Wrap-broken line prefix
@@ -33,6 +34,8 @@ call vundle#begin()
 
 Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'kien/ctrlp.vim'
 Plugin 'szw/vim-tags.git'
 Plugin 'bling/vim-airline'
 Plugin 'plasticboy/vim-markdown.git'
@@ -46,6 +49,24 @@ Plugin 'scrooloose/syntastic'
 
 call vundle#end()       
 filetype plugin indent on
+
+" Set up CTRL P {{{
+ " First set up patterns to ignore
+ set wildignore+=*/tmp/*,*.so,*/node_modules,*.swp,*.zip     " MacOSX/Linux
+ let g:ctrlp_map = '<c-p>'
+ " Open CTRL+P to search MRU (most recently used), files and buffers
+ let g:ctrlp_cmd = 'CtrlPMixed'
+ let g:ctrlp_working_path_mode = ''
+ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+" Make CTRL+P only look for filenames by default
+let g:ctrlp_by_filename = '1'
+"  
+"  """""""  CTRL+P Mappings """""""
+" Make CTRL+B open buffers
+ nnoremap <C-b> :CtrlPBuffer<CR>
+" " Make CTRL+F open Most Recently Used files
+ nnoremap <C-f> :CtrlPMRU<CR>
+"}}}
 
 " NERDTree
 let NERDTreeIgnore=['\.pyc$']
