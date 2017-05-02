@@ -7,11 +7,11 @@
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="bullet-train"
+ZSH_THEME="powerlevel9k/powerlevel9k"
 #install POWER LINE FONTS if no array in terminal
 
-BULLETTRAIN_TIME_SHOW=true
-BULLETTRAIN_GIT_COLORIZE_DIRTY=true
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
 
 alias ls="ls --color=always"
 alias grep="grep --color=always"
