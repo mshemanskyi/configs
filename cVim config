@@ -1,15 +1,16 @@
 " Settings
 set nohud
-set nosmoothscroll
+set smoothscroll
 set noautofocus " The opposite of autofocus; this setting stops
                 " sites from focusing on an input box when they load
 set typelinkhints
 let searchlimit = 30
-let scrollstep = 70
+let scrollstep = 150
 
 " alias ':g' to ':tabnew google'
 command g tabnew google
 command score tabnew& myscore.com.ua
+command mail tabnew& mail.google.com/mail/ca/u/0/#inbox
 
 let blacklists = ["https://mail.google.com/*", "*://mail.google.com/*", "@https://mail.google.com/mail/*"]
 " blacklists prefixed by '@' act as a whitelist
@@ -28,5 +29,4 @@ site '*://*.reddit.com/*' {
       unmap k
       set numerichints
 }
-
 
