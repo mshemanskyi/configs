@@ -1,119 +1,158 @@
-set nocompatible	" be iMproved
 
-set number	" Show line numbers
-set linebreak	" Break lines at word (requires Wrap lines)
-set showbreak=+++	" Wrap-broken line prefix
-set textwidth=120	" Line wrap (number of cols)
-set showmatch	" Highlight matching brace
-set errorbells	" Beep or flash screen on errors
-set visualbell	" Use visual bell (no beeping)
- 
-set hlsearch	" Highlight all search results
-set smartcase	" Enable smart-case search
-set ignorecase	" Always case-insensitive
-set incsearch	" Searches for strings incrementally
- 
-set autoindent	" Auto-indent new lines
-set expandtab	" Use spaces instead of tabs
-set shiftwidth=4	" Number of auto-indent spaces
-set smartindent	" Enable smart-indent
-set smarttab	" Enable smart-tabs
-set softtabstop=4	" Number of spaces per Tab
- 
-"" Advanced
-set ruler	" Show row and column ruler information
- 
-set undolevels=1000	" Number of undo levels
-set backspace=indent,eol,start	" Backspace behaviour
-let g:molokai_original = 1
+" ================ Vundle Start ====================
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
 
-filetype off 
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
+highlight clear SignColumn
+highlight GitGutterAdd ctermfg=green
+highlight GitGutterChange ctermfg=yellow
+highlight GitGutterDelete ctermfg=red
+highlight GitGutterChangeDelete ctermfg=yellow
+
+" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-Plugin 'davidhalter/jedi-vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'kien/ctrlp.vim'
-Plugin 'szw/vim-tags.git'
-Plugin 'bling/vim-airline'
-Plugin 'plasticboy/vim-markdown.git'
-Plugin 'rstacruz/sparkup'
-Plugin 'Raimondi/delimitMate'
-Plugin 'Shougo/neocomplcache.vim'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'majutsushi/tagbar'
-Plugin 'scrooloose/syntastic'
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'airblade/vim-gitgutter'
 
-call vundle#end()       
-filetype plugin indent on
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+" ================ Vundle End ====================
 
-" Set up CTRL P {{{
- " First set up patterns to ignore
- set wildignore+=*/tmp/*,*.so,*/node_modules,*.swp,*.zip     " MacOSX/Linux
- let g:ctrlp_map = '<c-p>'
- " Open CTRL+P to search MRU (most recently used), files and buffers
- let g:ctrlp_cmd = 'CtrlPMixed'
- let g:ctrlp_working_path_mode = ''
- let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-" Make CTRL+P only look for filenames by default
-let g:ctrlp_by_filename = '1'
-"  
-"  """""""  CTRL+P Mappings """""""
-" Make CTRL+B open buffers
- nnoremap <C-b> :CtrlPBuffer<CR>
-" " Make CTRL+F open Most Recently Used files
- nnoremap <C-f> :CtrlPMRU<CR>
-"}}}
 
-" NERDTree
-let NERDTreeIgnore=['\.pyc$']
-map <C-n> :NERDTreeToggle<CR>
-
-" Tagbar
-" JS 
-let g:tagbar_type_javascript = {
-    \ 'ctagsbin' : '/path/to/jsctags'
-	\ }
-
-" CSS
-let g:tagbar_type_css = {
-			\ 'ctagstype' : 'Css',
-    \ 'kinds'     : [
-        \ 'c:classes',
-        \ 's:selectors',
-        \ 'i:identities'
-    \ ]
-	\ }
-
-" Airline
-set laststatus=2   " Always show the statusline
-set encoding=utf-8 " Necessary to show Unicode glyphs"
-
-" Other ...
-
-" Syntax highlighting enables.
-if has("syntax")
-  syntax on
+" TODO: this may not be in the correct place. It is intended to allow overriding <Leader>.
+" source ~/.vimrc.before if it exists.
+if filereadable(expand("~/.vimrc.before"))
+  source ~/.vimrc.before
 endif
 
-set smartcase	" Do smart case matching
-set autowrite	" Automatically save before commands like :next and :make
+" ================ General Config ====================
 
-" size of a hard tabstop
-set tabstop=4
+set number                      "Line numbers are good
+set backspace=indent,eol,start  "Allow backspace in insert mode
+set history=1000                "Store lots of :cmdline history
+set showcmd                     "Show incomplete cmds down the bottom
+set showmode                    "Show current mode down the bottom
+set gcr=a:blinkon0              "Disable cursor blink
+set visualbell                  "No sounds
+set autoread                    "Reload files changed outside vim
+set cursorline                  "highline current line
+set showmatch
+set updatetime=250
 
-" size of an indent
+nnoremap j gj
+nnoremap k gk
+
+
+" This makes vim act like all other editors, buffers can
+" exist in the background without being in a window.
+" http://items.sjbach.com/319/configuring-vim-right
+set hidden
+
+"turn on syntax highlighting
+syntax on
+
+" Change leader to a comma because the backslash is too far away
+" That means all \x commands turn into ,x
+" The mapleader has to be set before vundle starts loading all 
+" the plugins.
+let mapleader=","
+
+" ================ Turn Off Swap Files ==============
+
+set noswapfile
+set nobackup
+set nowb
+
+" ================ Persistent Undo ==================
+" Keep undo history across sessions, by storing in file.
+" Only works all the time.
+if has('persistent_undo')
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  set undodir=~/.vim/backups
+  set undofile
+endif
+
+" ================ Indentation ======================
+
+set autoindent
+set smartindent
+set smarttab
 set shiftwidth=4
-
-" a combination of spaces and tabs are used to simulate tab stops at a width
-" other than the (hard)tabstop
 set softtabstop=4
+set tabstop=4
+set expandtab
 
-set number
+filetype plugin on
+filetype indent on
 
-set textwidth=80
+" Display tabs and trailing spaces visually
+set list listchars=tab:\ \ ,trail:·
 
-set t_Co=256
+set nowrap       "Don't wrap lines
+set linebreak    "Wrap lines at convenient points
+
+" ================ Folds ============================
+
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "dont fold by default
+
+" ================ Completion =======================
+
+set wildmode=list:longest
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
+
+"
+" ================ Scrolling ========================
+
+set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
+
+" ================ Search ===========================
+
+set incsearch       " Find the next match as we type the search
+set hlsearch        " Highlight searches by default
+set ignorecase      " Ignore case when searching...
+set smartcase       " ...unless we type a capital
+
+" ================ Custom Settings ========================
+"so ~/.yadr/vim/settings.vim
+
+"============ Backup ==========================="
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set writebackup
+
