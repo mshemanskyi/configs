@@ -1,11 +1,11 @@
-" Settings
+" Settings for chrome vim-plugin
 set nohud
 set smoothscroll
 set noautofocus " The opposite of autofocus; this setting stops
                 " sites from focusing on an input box when they load
 set typelinkhints
 let searchlimit = 30
-let scrollstep = 150
+let scrollstep = 200
 
 " alias ':g' to ':tabnew google'
 command g tabnew google
