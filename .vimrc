@@ -68,7 +68,7 @@ nnoremap k gk
 " http://items.sjbach.com/319/configuring-vim-right
 set hidden
 
-"turn on syntax highlighting
+" turn on syntax highlighting
 syntax on
 
 " Change leader to a comma because the backslash is too far away
